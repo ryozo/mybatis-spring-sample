@@ -11,7 +11,8 @@
 
     <!-- DataSource -->
     <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:h2-initialize.sql" />
+        <jdbc:script location="classpath:h2-schema.sql" />
+        <jdbc:script location="classpath:h2-dataload.sql" />
     </jdbc:embedded-database>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
