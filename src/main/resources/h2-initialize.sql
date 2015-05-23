@@ -1,6 +1,5 @@
-create table base(id bigint auto_increment primary key, value varchar(255) not null);
+create table user(id bigint auto_increment primary key, name varchar(255) not null, age int not null, mail varchar(256));
 
-insert into base (value) values ('value1');
-insert into base (value) values ('value2');
-insert into base (value) values ('value3');
-insert into base (value) values ('value4');
+insert into user (name, age, mail) values ('taro yamada', 20, 'taro@example.com');
+insert into user (name, age, mail) values ('jiro suzuki', 30, 'jiro@example.com');
+insert into user (name, age, mail) values ('sabro sato', 40, 'sabro@example.com');
