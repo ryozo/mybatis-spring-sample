@@ -8,8 +8,10 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable {
-    private static final long serialVersionUID = 8905786556695692190L;
+    private static final long serialVersionUID = 1451499324494499891L;
     private Long id;
+    @NonNull
+    private String userid;
     @NonNull
     private String name;
     @NonNull

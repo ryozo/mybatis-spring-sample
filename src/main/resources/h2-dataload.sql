@@ -1,4 +1,4 @@
--- load user table
-insert into users (name, age, mail) values ('taro yamada', 20, 'taro@example.com');
-insert into users (name, age, mail) values ('jiro suzuki', 30, 'jiro@example.com');
-insert into users (name, age, mail) values ('sabro sato', 40, 'sabro@example.com');
+-- load users table
+insert into users (userid, name, age, mail) values ('U0001', 'taro yamada', 20, 'taro@example.com');
+insert into users (userid, name, age, mail) values ('U0002', 'jiro suzuki', 30, 'jiro@example.com');
+insert into users (userid, name, age, mail) values ('U0003', 'sabro sato', 40, 'sabro@example.com');

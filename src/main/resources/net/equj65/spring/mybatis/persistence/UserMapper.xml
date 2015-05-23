@@ -10,11 +10,11 @@
     </select>
 
     <select id="findAllUsers" resultType="net.equj65.spring.mybatis.entity.User">
-        SELECT id, name, age, mail FROM users
+        SELECT id, userid, name, age, mail FROM users
     </select>
 
     <select id="getUserById" resultType="net.equj65.spring.mybatis.entity.User">
-        SELECT id, name, age, mail FROM users WHERE id = #{id}
+        SELECT id, userid, name, age, mail FROM users WHERE id = #{id}
     </select>
 
     <!--
@@ -22,11 +22,12 @@
       Mapperの呼び出し元インスタンスに対して自動generateされたキー値が格納される。
     -->
     <insert id="insertUser" parameterType="net.equj65.spring.mybatis.entity.User" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
-        INSERT INTO users (name, age, mail) VALUES (#{name}, #{age}, #{mail})
+        INSERT INTO users (userid, name, age, mail) VALUES (#{userid}, #{name}, #{age}, #{mail})
     </insert>
 
     <update id="updateUser">
         UPDATE users set
+          userid = #{userid},
           name = #{name},
           age = #{age},
           mail = #{mail}

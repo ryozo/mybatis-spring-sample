@@ -26,7 +26,7 @@ public class App {
         // insert
         System.out.println();
         System.out.println("1. Insert");
-        User user = new User("siro watanabe", 50);
+        User user = new User("U0004", "siro watanabe", 50);
         System.out.println("  [user instance before the insert]");
         indentOut(user);
 
