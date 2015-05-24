@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.equj65.spring.mybatis.persistence.OrderMapper">
+
+    <cache/>
+
+    <select id="findAllOrderWithProductAndDetails" resultMap="detailedOrderResultMap">
+        select
+          orders.id,
+          orders.ordercode,
+          orders.orderdate,
+          orders.users_id,
+          order_details.id as "orderDetails_id",
+          order_details.count as "orderDetails_count",
+          order_details.products_id as "orderDetails_products_id",
+          products.id as "products_id",
+          products.productcode as "products_productcode",
+          products.name as "products_name",
+          products.price as "products_price"
+        from orders orders
+        inner join order_details on orders.id = order_details.orders_id
+        inner join products on order_details.products_id = products.id
+    </select>
+
+    <select id="getUserById" resultMap="usersResultMap">
+        select id, userid as "userId", name, age, mail
+        from users
+        where id = #{users_id}
+    </select>
+
+    <insert id="insertOrder" parameterType="net.equj65.spring.mybatis.entity.Order" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into orders (ordercode, orderdate, users_id) values (#{orderCode}, #{orderDate}, #{user.id})
+    </insert>
+
+    <insert id="insertOrderDetail" parameterType="net.equj65.spring.mybatis.entity.OrderDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into order_details (count, orders_id, products_id) values (#{count}, #{order.id}, #{product.id})
+    </insert>
+
+    <resultMap id="detailedOrderResultMap" type="net.equj65.spring.mybatis.entity.Order">
+        <!--
+          これ以外にもconstructorタグを使ってコンストラクタを利用してインスタンスを初期化できる。
+          つまりImmutableなオブジェクトを構築できる。
+        -->
+        <!-- idとresultタグはresultMapのtyp属性に指定した型に直接設定するフィールドを定義する。 -->
+        <id property="id" column="id" />
+        <result property="orderCode" column="ordercode" />
+        <result property="orderDate" column="orderdate" />
+        <!--
+          assotiationタグはhas-on関係の定義を行う。
+          select句をネストしてassociationを読み込む。
+          property属性はOrderクラス内のフィールド名を指し、column属性はネストしたsql側に受け渡すクエリ上のパラメータを指す。
+         -->
+        <association property="user" column="users_id" select="getUserById" />
+        <!--
+          collectionタグはhas-many関係の定義を行う。今回のケースではjoinした結果の取り込みを行う。
+        -->
+        <collection property="orderDetails" ofType="net.equj65.spring.mybatis.entity.OrderDetail">
+            <id property="id" column="orderDetails_id" />
+            <result property="count" column="orderDetails_count" />
+            <!-- OrderDetail内に保持するProductも詰めて返す -->
+            <association property="product" column="orderDetails_products_id" javaType="net.equj65.spring.mybatis.entity.Product">
+                <id property="id" column="products_id" />
+                <result property="productCode" column="products_productcode" />
+                <result property="name" column="products_name" />
+                <result property="price" column="products_price" />
+            </association>
+        </collection>
+    </resultMap>
+
+    <!--
+      ユーザ情報取得用クエリの結果とJavaBeanのマッピングを表すResultMap。
+      クエリの結果に別名を付けてJavaBeanにマッピング(UserMapper側参照)しても良いが、今回の例のようにResultMapを利用して紐付けても構わない。
+     -->
+    <resultMap id="usersResultMap" type="net.equj65.spring.mybatis.entity.User">
+        <id property="id" column="id" />
+        <result property="userId" column="userid" />
+        <result property="name" column="name" />
+        <result property="age" column="age" />
+        <result property="mail" column="mail" />
+    </resultMap>
+    
+</mapper>

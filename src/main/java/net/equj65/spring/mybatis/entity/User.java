@@ -2,14 +2,11 @@ package net.equj65.spring.mybatis.entity;
 
 import lombok.*;
 
-import java.io.Serializable;
-
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
-    private static final long serialVersionUID = 1451499324494499891L;
-    private Long id;
+public class User extends BaseEntity {
+    private static final long serialVersionUID = -2175047969821475232L;
     @NonNull
     private String userId;
     @NonNull
